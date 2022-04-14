@@ -4,19 +4,38 @@
 
   class Ferrari extends Car{
 
-    public $name = "フェラーリ";
-    public $price = 35000000;
-    public $member_capacity = 1 ;
-    public $member = 1;
-    public $velocity = 0;
-    public $max_velocity = 300;
-    public $acceleration = 60;
-    public $deceleration = 50;
-    public $height = 120;
-    public $isLiftUp = false;
+    protected bool $isLiftUp = false;
 
-    function __construct(){
-      $this->price = mt_rand(($this->price - 9999999), ($this->price + 10000000));
+    function __construct(
+      $name = "フェラーリ",
+      $price = 35000000,
+      $member_capacity = 1, 
+      $member = 1,
+      $velocity = 0,
+      $max_velocity = 300,
+      $acceleration = 60,
+      $deceleration = 50,
+      $height = 120,
+    ){
+      parent::__construct(
+        $name,
+        $price,
+        $member_capacity,
+        $member,$velocity,
+        $max_velocity,
+        $acceleration,
+        $deceleration,
+        $height
+      );
+
+    }
+
+    function getHeight(){
+      return $this->height;
+    }
+
+    function getAcceleration(){
+      return $this->acceleration;
     }
 
 

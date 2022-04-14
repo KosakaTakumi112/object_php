@@ -3,20 +3,29 @@
   require_once "car.php";
 
   class Honda extends Car{
-    public $name = "ホンダ";
-    public $price = 25000000;
-    public $member_capacity =5;
-    public $member = 1;
-    public $velocity = 0;
-    public $max_velocity = 160;
-    public $acceleration = 30;
-    public $deceleration = 40;
-    public $height = 150;
-    
-    function __construct(){
-      $this->price = mt_rand(($this->price - 9999999), ($this->price + 10000000));
-    }
 
+    function __construct(
+      $name = "ホンダ",
+      $price = 25000000,
+      $member_capacity = 4, 
+      $member = 1,
+      $velocity = 0,
+      $max_velocity = 160,
+      $acceleration = 30,
+      $deceleration = 40,
+      $height = 50,
+    ){
+      parent::__construct(
+        $name,
+        $price,
+        $member_capacity,
+        $member,$velocity,
+        $max_velocity,
+        $acceleration,
+        $deceleration,
+        $height
+      );
+    }
  
   }
 
