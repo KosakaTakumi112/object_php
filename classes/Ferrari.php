@@ -4,45 +4,46 @@
 
   class Ferrari extends Car{
 
-    protected bool $isLiftUp = false;
+    protected bool $isLiftUp_ = false;
 
     function __construct(
       $name = "フェラーリ",
-      $price = 35000000,
-      $member_capacity = 1, 
-      $member = 1,
-      $velocity = 0,
-      $max_velocity = 300,
-      $acceleration = 60,
-      $deceleration = 50,
-      $height = 120,
+      $price_jpy = 35000000,
+      $seating_capacity = 1, 
+      $seating_number = 1,
+      $velocity_kmph = 0,
+      $max_velocity_kmph = 300,
+      $acceleration_mpss = 20,
+      $deceleration_mpss = 25,
+      $height_cm = 100,
     ){
       parent::__construct(
         $name,
-        $price,
-        $member_capacity,
-        $member,$velocity,
-        $max_velocity,
-        $acceleration,
-        $deceleration,
-        $height
+        $price_jpy,
+        $seating_capacity,
+        $seating_number,
+        $velocity_kmph,
+        $max_velocity_kmph,
+        $acceleration_mpss,
+        $deceleration_mpss,
+        $height_cm
       );
 
     }
 
     function getHeight(){
-      return $this->height;
+      return $this->height_cm_;
     }
 
     function liftChange(){
-      if(!$this->isLiftUp){
-        $this->height += 4;
-        $this->acceleration *= 0.8;
+      if(!$this->isLiftUp_){
+        $this->height_cm_ += 4;
+        $this->acceleration_mpss_ *= 0.8;
       } else {
-        $this->height -= 4;
-        $this->acceleration /= 0.8;
+        $this->height_cm_ -= 4;
+        $this->acceleration_mpss_ /= 0.8;
       }
-      $this->isLiftUp = !($this->isLiftUp);
+      $this->isLiftUp_ = !($this->isLiftUp_);
     }
 
   }

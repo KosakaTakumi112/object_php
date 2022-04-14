@@ -6,27 +6,29 @@
 
     function __construct(
       $name = "ホンダ",
-      $price = 25000000,
-      $member_capacity = 4, 
-      $member = 1,
-      $velocity = 0,
-      $max_velocity = 160,
-      $acceleration = 30,
-      $deceleration = 40,
-      $height = 50,
+      $price_jpy = 25000000,
+      $seating_capacity = 5,
+      $seating_number = 1,
+      $velocity_kmph = 0,
+      $max_velocity_kmph = 160,
+      $acceleration_mpss = 8,
+      $deceleration_mpss = 10,
+      $height_cm = 150,
     ){
       parent::__construct(
         $name,
-        $price,
-        $member_capacity,
-        $member,$velocity,
-        $max_velocity,
-        $acceleration,
-        $deceleration,
-        $height
+        $price_jpy,
+        $seating_capacity,
+        $seating_number,
+        $velocity_kmph,
+        $max_velocity_kmph,
+        $acceleration_mpss,
+        $deceleration_mpss,
+        $height_cm
       );
+
     }
- 
+
   }
 
 ?>
