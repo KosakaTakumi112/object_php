@@ -9,7 +9,7 @@
     public $member = 1;
     public $velocity = 0;
     public $max_velocity = 140;
-    public $acceleration = 30;
+    public $acceleration = 30 * 0.6;
     public $deceleration = 40;
     public $height = 150;
 

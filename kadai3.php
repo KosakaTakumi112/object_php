@@ -1,8 +1,8 @@
 <?php
 
-  require_once "Ferrari.php";
-  require_once "Nissan.php";
-  require_once "Honda.php";
+  require_once "classes/Ferrari.php";
+  require_once "classes/Honda.php";
+  require_once "classes/Nissan.php";
 
   function printAvgAndSum($className){
 
