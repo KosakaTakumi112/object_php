@@ -6,25 +6,27 @@
 
     function __construct(
       $name = "日産",
-      $price = 15000000,
-      $member_capacity = 4, 
-      $member = 1,
-      $velocity = 0,
-      $max_velocity = 180,
-      $acceleration = 9,
-      $deceleration = 12,
-      $height = 130,
+      $price_jpy = 15000000,
+      $seating_capacity = 4,
+      $seating_number = 1,
+      $velocity_kmph = 0,
+      $max_velocity_kmph = 180,
+      $acceleration_mpss = 9,
+      $deceleration_mpss = 12,
+      $height_cm = 130,
     ){
       parent::__construct(
         $name,
-        $price,
-        $member_capacity,
-        $member,$velocity,
-        $max_velocity,
-        $acceleration * 0.6,
-        $deceleration,
-        $height
+        $price_jpy,
+        $seating_capacity,
+        $seating_number,
+        $velocity_kmph,
+        $max_velocity_kmph,
+        $acceleration_mpss * 0.6,
+        $deceleration_mpss,
+        $height_cm
       );
+
     }
 
   }
