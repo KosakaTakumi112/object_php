@@ -17,25 +17,14 @@
 
 
     function liftChange(){
-      if($isLiftUp){
-        echo "リフトダウンします。\n";
-        echo "リフト前の車高{$this->height}\n";
-        echo "リフト前の速度{$this->acceleration}\n";
-
+      if(!$this->isLiftUp){
         $this->height += 4;
         $this->acceleration *= 0.8;
-        echo "リフト後の車高{$this->height}\n";
-        echo "リフト後の速度{$this->acceleration}\n";
       } else {
-        echo "リフトアップします。\n";
-        echo "リフト前の車高{$this->height}\n";
-        echo "リフト前の速度{$this->acceleration}\n";
-
         $this->height -= 4;
         $this->acceleration /= 0.8;
-        echo "リフト後の車高{$this->height}\n";
-        echo "リフト後の速度{$this->acceleration}\n";
       }
+      $this->isLiftUp = !($this->isLiftUp);
     }
 
   }
