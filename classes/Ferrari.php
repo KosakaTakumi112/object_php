@@ -34,11 +34,6 @@
       return $this->height;
     }
 
-    function getAcceleration(){
-      return $this->acceleration;
-    }
-
-
     function liftChange(){
       if(!$this->isLiftUp){
         $this->height += 4;

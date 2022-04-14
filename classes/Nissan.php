@@ -11,7 +11,7 @@
       $member = 1,
       $velocity = 0,
       $max_velocity = 140,
-      $acceleration = 30 * 0.6,
+      $acceleration = 30,
       $deceleration = 40,
       $height = 150,
     ){
@@ -21,7 +21,7 @@
         $member_capacity,
         $member,$velocity,
         $max_velocity,
-        $acceleration,
+        $acceleration * 0.6,
         $deceleration,
         $height
       );
