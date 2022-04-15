@@ -12,7 +12,7 @@
       $velocity_kmph = 0,
       $max_velocity_kmph = 180,
       $acceleration_mpss = 9,
-      $deceleration_mpss = 12,
+      $deceleration_mpss = -12,
       $height_cm = 130,
     ){
       parent::__construct(

@@ -48,10 +48,16 @@
 
     function pushAccel($time){
       $this->velocity_kmph_ += $this->acceleration_mpss_ * $time ;
+      if($this->velocity_kmph_ > $this->max_velocity_kmph_){
+        $this->velocity_kmph_ = $this->max_velocity_kmph_ ;
+      }
     }
 
     function pushBreak($time){
       $this->velocity_kmph_ += $this->deceleration_mpss_ * $time;
+      if($this->velocity_kmph_ < 0){
+        $this->velocity_kmph_ = 0 ;
+      }
     }
 
     function getOn($number){
