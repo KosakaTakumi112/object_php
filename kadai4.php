@@ -4,7 +4,6 @@
   require_once "classes/Honda.php";
   require_once "classes/Nissan.php";
 
-
   function printSeatingNumberAndAcceleration($object){
     echo "現在".$object->getSeatingNumber()."人乗車中\n";
     echo "この時の加速度は".$object->getAcceleration()."(m/s^2)\n";

@@ -7,11 +7,11 @@
     protected bool $isLiftUp_ = false;
 
     function __construct(
-      $name = "フェラーリ",
-      $price_jpy = 35000000,
-      $seating_capacity = 1,
-      $seating_number = 1,
-      $velocity_kmph = 0,
+      $name              = "フェラーリ",
+      $price_jpy         = 35000000,
+      $seating_capacity  = 1,
+      $seating_number    = 1,
+      $velocity_kmph     = 0,
       $max_velocity_kmph = 300,
       $acceleration_mpss = 20,
       $deceleration_mpss = -25,
