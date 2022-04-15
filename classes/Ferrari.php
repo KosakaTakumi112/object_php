@@ -9,7 +9,7 @@
     function __construct(
       $name = "フェラーリ",
       $price_jpy = 35000000,
-      $seating_capacity = 1, 
+      $seating_capacity = 1,
       $seating_number = 1,
       $velocity_kmph = 0,
       $max_velocity_kmph = 300,

@@ -13,7 +13,7 @@
     for ($i = 0; $i < $random_number; $i++){
       $objects[] = new $className();
     };
-  
+
     Car::printAvgAndSumPrice($objects);
   };
 
