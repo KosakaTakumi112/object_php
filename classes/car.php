@@ -37,6 +37,15 @@
       $this->height_cm_ = $height_cm;
     }
 
+    //マジックメソッド
+    public function __get($prop) {
+      return $this->$prop;
+    }
+    public function __isset($prop) : bool {
+      return isset($this->$prop);
+    }
+    //ここまで
+
     function pushAccel($time){
       $this->velocity_kmph_ += $this->acceleration_mpss_ * $time ;
     }
@@ -120,6 +129,16 @@
         echo "車高：{$this->height_cm_}(cm)";
         echo "\n";
         echo "\n";
+    }
+
+    static function printAvgAndSumPrice($object_array){
+      if (count($object_array) == 0){ return; }
+      $class_name = get_class($object_array[0]);
+      $sum_price = array_sum(array_column($object_array,"price_jpy_"));
+      $avg_price = round($sum_price / count($object_array));
+      echo "{$class_name}の合計金額は".number_format($sum_price)."円\n";
+      echo "{$class_name}の平均価格は".number_format($avg_price)."円\n\n";
+
     }
 
   }
