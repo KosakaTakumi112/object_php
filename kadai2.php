@@ -1,6 +1,6 @@
 <?php
 
-  require_once "classes/Ferrari.php";
+  require_once "classes/Cars/Ferrari.php";
 
   $ferrari = new Ferrari();
 

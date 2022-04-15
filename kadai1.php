@@ -1,8 +1,8 @@
 <?php
 
-  require_once "classes/Ferrari.php";
-  require_once "classes/Honda.php";
-  require_once "classes/Nissan.php";
+  require_once "classes/Cars/Ferrari.php";
+  require_once "classes/Cars/Honda.php";
+  require_once "classes/Cars/Nissan.php";
 
   $ferrari = new Ferrari();
   $ferrari->printCarInfo();
