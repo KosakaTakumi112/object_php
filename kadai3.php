@@ -7,7 +7,7 @@
   $classNames = ["Nissan","Honda","Ferrari"];
 
   foreach($classNames as $className){
-    $prices = [];
+    $objects = [];
     $random_number = mt_rand(10,100);
 
     for ($i = 0; $i < $random_number; $i++){

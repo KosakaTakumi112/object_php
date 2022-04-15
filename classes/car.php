@@ -15,6 +15,16 @@
     protected  float $deceleration_mpss_;
     protected    int $height_cm_;
 
+    static function printAvgAndSumPrice($object_array){
+      if (count($object_array) == 0){ return; }
+      if (empty(array_column($object_array,"price_jpy_"))){ return; }
+      $class_name = get_class($object_array[0]);
+      $sum_price = array_sum(array_column($object_array,"price_jpy_"));
+      $avg_price = round($sum_price / count($object_array));
+      echo "{$class_name}の合計金額は".number_format($sum_price)."円\n";
+      echo "{$class_name}の平均価格は".number_format($avg_price)."円\n\n";
+    }
+
     function __construct(
       $name,
       $price_jpy,
@@ -66,7 +76,7 @@
 
     function getOn($number){
       if($number <= 0){
-        echo "正しい人数を指定してください";
+        echo "1以上の人数を入力しましょう";
         return;
       }
       if($this->seating_capacity_  < ($number + $this->seating_number_)){
@@ -83,11 +93,11 @@
 
     function getOff($number){
       if ($number <= 0){
-        echo "正しい人数を指定してください";
+        echo "1以上の人数を入力しましょう";
         return;
       }
       if ($number > $this->seating_number_){
-        echo "そんなに人は乗っていません。";
+        echo "乗車中の人数を超えています。";
         return;
       }
       if ($number == $this->seating_number_){
@@ -119,15 +129,6 @@
         echo "車高：{$this->height_cm_}(cm)";
         echo "\n";
         echo "\n";
-    }
-
-    static function printAvgAndSumPrice($object_array){
-      if (count($object_array) == 0){ return; }
-      $class_name = get_class($object_array[0]);
-      $sum_price = array_sum(array_column($object_array,"price_jpy_"));
-      $avg_price = round($sum_price / count($object_array));
-      echo "{$class_name}の合計金額は".number_format($sum_price)."円\n";
-      echo "{$class_name}の平均価格は".number_format($avg_price)."円\n\n";
     }
 
   }
