@@ -4,6 +4,8 @@
   require_once "classes/Honda.php";
   require_once "classes/Nissan.php";
 
+  //echoの連続になってしまうため関数でまとめた。carクラスに入れるのも検討したが、今回は上で書いた。
+  //後2つくらい同じようなメソッドが出たら、これらを切り出して別のクラスなどを作ろうかと思う。
   function printSeatingNumberAndAcceleration($object){
     echo "現在".$object->getSeatingNumber()."人乗車中\n";
     echo "この時の加速度は".$object->getAcceleration()."(m/s^2)\n";
