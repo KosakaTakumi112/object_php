@@ -47,6 +47,7 @@
     function   getSeatingNumber(){ return $this->seating_number_; }
     function getSeatingCapacity(){ return $this->seating_capacity_; }
     function    getAcceleration(){ return $this->acceleration_mpss_; }
+    function          getHeight(){ return $this->height_cm_; }
     //ここまで
 
     function pushAccel($time){

@@ -31,10 +31,6 @@
 
     }
 
-    function getHeight(){
-      return $this->height_cm_;
-    }
-
     function liftChange(){
       if(!$this->isLiftUp_){
         $this->height_cm_ += 4;
