@@ -11,31 +11,34 @@
 
     function __construct(){
       $straight = new Straight();
-      $this->course[] =
-      ["road_type" => get_class($straight),
-       "tolerance_velocity_kmph" => $straight->tolerance_velocity_kmph_,
-       "terminate_road_km" => $straight->distance_km_,
+      $this->course[] = [
+        "road_type" => get_class($straight),
+        "tolerance_velocity_kmph" => $straight->tolerance_velocity_kmph_,
+        "terminate_road_km" => $straight->distance_km_,
       ];
 
       for($i = 0; $i < mt_rand(1,5); $i++){
           for($j = 0; $j < mt_rand(1,5); $j++){
-            $this->course[] = $this->getCourseElementArray("Straight");
+            $this->course[] = $this->getArrayCourseElement("Straight");
           }
-          $this->course[] = $this->getCourseElementArray("BeforeCurve");        
-          $this->course[] = $this->getCourseElementArray("Curve");
-
+          $this->course[] = $this->getArrayCourseElement("BeforeCurve");        
+          $this->course[] = $this->getArrayCourseElement("Curve");
       }
     }
 
     function getCourse(){
       return $this->course;
     }
+    function getTotalKm(){
+      return end($this->course)["terminate_road_km"];
+    }
 
-    function getCourseElementArray($class_name){
+    function getArrayCourseElement($class_name){
       $object = new $class_name();
-      return ["road_type" => get_class($object),
-      "tolerance_velocity_kmph" => $object->tolerance_velocity_kmph_,
-      "terminate_road_km" => end($this->course)["terminate_road_km"] + $object->distance_km_
+      return [
+        "road_type" => get_class($object),
+        "tolerance_velocity_kmph" => $object->tolerance_velocity_kmph_,
+        "terminate_road_km" => end($this->course)["terminate_road_km"] + $object->distance_km_
       ];
     }
 

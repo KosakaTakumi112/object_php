@@ -5,15 +5,15 @@
     //命名方法
     //1.メンバ変数の末尾には_をつけている。
     //2.接尾辞にて単位情報を変数に付与してる。
-    protected string $name_;
-    protected    int $price_jpy_;
-    protected    int $seating_capacity_;
-    protected    int $seating_number_;
-    protected  float $velocity_kmph_;
-    protected  float $max_velocity_kmph_;
-    protected  float $acceleration_mpss_;
-    protected  float $deceleration_mpss_;
-    protected    int $height_cm_;
+    public string $name_;
+    public    int $price_jpy_;
+    public    int $seating_capacity_;
+    public    int $seating_number_;
+    public  float $velocity_kmph_;
+    public  float $max_velocity_kmph_;
+    public  float $acceleration_mpss_;
+    public  float $deceleration_mpss_;
+    public    int $height_cm_;
 
     static function printAvgAndSumPrice($object_array){
       if (count($object_array) == 0){ return; }
@@ -53,16 +53,17 @@
     //ここまで
 
     //アクセサメソッド
-    function           getPrice(){ return $this->price_jpy_; }
-    function   getSeatingNumber(){ return $this->seating_number_; }
-    function getSeatingCapacity(){ return $this->seating_capacity_; }
-    function    getAcceleration(){ return $this->acceleration_mpss_; }
-    function          getHeight(){ return $this->height_cm_; }
+    function            getPrice(){ return $this->price_jpy_; }
+    function    getSeatingNumber(){ return $this->seating_number_; }
+    function  getSeatingCapacity(){ return $this->seating_capacity_; }
+    function     getVelocityKmph(){ return $this->velocity_kmph_; }
+    function getAccelerationMpss(){ return $this->acceleration_mpss_; }
+    function           getHeight(){ return $this->height_cm_; }
     //ここまで
 
     function pushAccel($time){
       $this->velocity_kmph_ += $this->acceleration_mpss_ * $time ;
-      if($this->max_velocity_kmph_ < $this->velocity_kmph_){
+      if($this->velocity_kmph_ > $this->max_velocity_kmph_ ){
         $this->velocity_kmph_ = $this->max_velocity_kmph_ ;
       }
     }

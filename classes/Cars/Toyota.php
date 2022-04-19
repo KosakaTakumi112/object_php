@@ -22,7 +22,7 @@
         $seating_number,
         $velocity_kmph,
         $max_velocity_kmph,
-        $acceleration_mpss = round($prices/45,2),
+        $acceleration_mpss = round($price_jpy/45,2),
         $deceleration_mpss,
         $height_cm
       );
