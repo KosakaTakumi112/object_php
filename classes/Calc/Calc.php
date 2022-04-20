@@ -14,7 +14,7 @@
     }
 
     static function toKm($m){
-      return round($m / 1000,1);
+      return round($m / 1000);
     }
 
     static function toHMS($seconds) {

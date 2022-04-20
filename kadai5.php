@@ -15,6 +15,10 @@
 
   print_r($course);
 
+  foreach($course as $c){
+    echo $c["road_type"];
+  }
+
 
   //車のインスタンスと走行距離の配列をそれぞれ作成
   $car_makers = ["Ferrari","Honda","Nissan","Toyota"];
@@ -76,53 +80,55 @@
       }
 
       //今いる道のタイプを取得
-      $current_road = $course_instance->getRoad(Calc::toKm($distances[$car_maker]));
+      $current_road = $course_instance->getRoad($current_location_km);
       $current_road_type = $current_road["road_type"];
       $current_road_tolerance_velocity = $current_road["tolerance_velocity_kmph"];
+      // echo $current_road_type . "で" . $current_location_km . "地点にいます\n";
 
-      if ($current_road_type == "BeforeCurve"){
-      echo $current_road_type;
-
-      }
 
       //道のタイプによって速度の更新
-      if($current_road_type == "Straight"){
-        $car->pushAccel($delta_time);
-        $mark[$car_maker] = "Straight";
-      }
+      switch($current_road_type){
 
-      if($current_road_type == "BeforeCurve"){
-        if ($mark[$car_maker] != "BeforeCurve"){
-          echo $car_maker . "がカーブに突入するぞ！ブレーキをふみこめー！\n";
-          $mark[$car_maker] = "BeforeCurve";
-        }
-        if($race_time % 1 == 0){
-          echo "現在速度:" . $car->velocity_kmph_ . "(km/h)\n" ;
-          sleep(1);
-        }
-        $random = mt_rand(1,10) * 0.1;
-        $car->pushBreak($delta_time * $random);
-      }
+        case "Straight":
+          $car->pushAccel($delta_time);
+          $mark[$car_maker] = "Straight";
+          break;
 
-      if($current_road_type == "Curve"){
-        if ($mark[$car_maker] != "Curve"){
-          echo $car_maker . "はカーブを曲がる！\n";
-          sleep(1);
-          echo "現在速度:" . $car->velocity_kmph_ . "'km/h)\n" . "許容速度" . $current_road_tolerance_velocity ."(km/h)\n" ;
-          sleep(1);
-          $mark[$car_maker] = "Curve";
-
-          if($car->velocity_kmph_ > $current_road_tolerance_velocity){
-            echo "クラッシュしたーーーーーーーーーーーーーーーー！\n";
-            sleep(2);
-            $car->velocity_kmph_ = 10;
-            echo "速度が10km/hにダウン！\n";
-            sleep(2);
-          }else{
-            echo "カーブを曲がりきった！\n";
-            sleep(2);
+        case "Curve":
+          if ($mark[$car_maker] != "Curve"){
+            echo $car_maker . "はカーブを曲がる！\n";
+            sleep(1);
+            echo "現在速度:" . $car->velocity_kmph_ . "'km/h)\n" . "許容速度" . $current_road_tolerance_velocity ."(km/h)\n" ;
+            sleep(1);
+            $mark[$car_maker] = "Curve";
           }
-        }
+
+          if($car->velocity_kmph_ > $current_road_tolerance_velocity && $mark[$car_maker] != "Crash"){
+              echo "クラッシュしたーーーーーーーーーーーーーーーー！\n";
+              sleep(2);
+              $car->velocity_kmph_ = 10;
+              echo "速度が10km/hにダウン！\n";
+              sleep(2);
+              $mark[$car_maker] = "Crash";
+          }
+          
+          if($mark[$car_maker] == "Crash"){
+            $car->pushAccel($delta_time);
+          }
+
+          break;
+
+        default:
+          if ($mark[$car_maker] != "BeforeCurve"){
+            echo $car_maker . "がカーブに突入するぞ！ブレーキをふみこめー！\n";
+            $mark[$car_maker] = "BeforeCurve";
+          }
+          if($race_time % 1 == 0){
+            echo "現在速度:" . $car->velocity_kmph_ . "(km/h)\n" ;
+            sleep(1);
+          }
+          $random = mt_rand(1,10) * 0.1;
+          $car->pushBreak($delta_time * $random);
       }
       // echo $car_maker . "の速度は" . $car->getVelocityKmph() . "\n";
 
