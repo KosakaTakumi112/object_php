@@ -34,12 +34,14 @@
     }
     function getRoad($km){
       foreach($this->course as $road){
+
         if($km < $road["terminate_road_km"]){
-          echo "-------------------------------------" . $road["road_type"] . "--------------------------\n";
           return $road;
         }else{
-          return end($this->course);
         }
+
+        return end($this->course);
+
       }
     }
 
