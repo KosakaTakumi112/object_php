@@ -17,8 +17,8 @@
         "terminate_road_km" => $straight->distance_km_,
       ];
 
-      for($i = 0; $i < mt_rand(1,4); $i++){
-          for($j = 0; $j < mt_rand(1,3); $j++){
+      for($i = 0; $i < mt_rand(1,5); $i++){
+          for($j = 0; $j < mt_rand(1,4); $j++){
             $this->course[] = $this->getArrayCourseElement("Straight");
           }
           $this->course[] = $this->getArrayCourseElement("BeforeCurve");        
@@ -37,12 +37,9 @@
 
         if($km < $road["terminate_road_km"]){
           return $road;
-        }else{
         }
-
-        return end($this->course);
-
       }
+      return end($this->course);
     }
 
     function getArrayCourseElement($class_name){

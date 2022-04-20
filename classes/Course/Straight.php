@@ -3,7 +3,7 @@
 
   class Straight extends Road {
 
-    public $distance_km_ = 50;
+    public $distance_km_ = 30;
     public $tolerance_velocity_kmph_ = 300;
 
     function __construct(){

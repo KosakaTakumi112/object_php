@@ -24,7 +24,7 @@
     $cars += array($car_maker => (new $car_maker));
     $distances += array($car_maker => 0);
     $information_point += array($car_maker => 100);
-    $mark += array($car_maker => ["Straight"=>0 ,"Curve"=>0,"BeforeCurve"=>0 ]);
+    $mark += array($car_maker => ["Straight"=>0 ,"Curve"=>0,"BeforeCurve"=>0,"Crash"=>0 ]);
   }
 
 
@@ -85,8 +85,9 @@
         case "Straight":
           $car->pushAccel($delta_time);
           $mark[$car_maker]["Straight"] = 1;
-          $mark[$car_maker]["Curve"] == 0;
-          $mark[$car_maker]["BeforeCurve"] == 0;
+          $mark[$car_maker]["Curve"] = 0;
+          $mark[$car_maker]["BeforeCurve"] = 0;
+          $mark[$car_maker]["Crash"] = 0;
           break;
 
         case "BeforeCurve":
@@ -94,12 +95,11 @@
             echo $car_maker . "がカーブに突入するぞ！ブレーキをふみこめー！\n";
             $mark[$car_maker]["BeforeCurve"] = 1;
           }
-          if($race_time % 1 == 0){
+          if($race_time % 5 == 0){
             echo "現在速度:" . $car->velocity_kmph_ . "(km/h)\n" ;
             sleep(1);
           }
-          $random = mt_rand(1,10) * 0.1;
-          $car->pushBreak($delta_time * $random);
+          $car->pushBreak($delta_time);
           break;
 
         case "Curve":
@@ -116,7 +116,16 @@
               $car->velocity_kmph_ = 10;
               echo "速度が10km/hにダウン！\n";
               sleep(2);
+              echo "さらに車が故障して性能が大幅に下がった！\n";
+              $car->max_velocity_kmph_ = 180;
+              $car->acceleration_mpss_ = 8;
+              $mark[$car_maker]["Crash"] = 1;
+              sleep(2);
             }
+          }
+
+          if($mark[$car_maker]["Crash"] == 1){
+            $car->pushAccel($delta_time);
           }
           break;
       }
@@ -125,11 +134,10 @@
 
       //ゴール判定
       if($distances[$car_maker] > $total_m){
-        echo "--------------" . $car_maker . "がゴールしました！--------------";
+        echo "--------------" . $car_maker . "がゴールしました！--------------\n";
         $ranking += array($car_maker => $race_time);
         $index = array_search($car_maker,$car_makers);
         unset($car_makers[$index]);
-        print_r($car_makers);
       }
     }
 
@@ -140,7 +148,10 @@
 
   $i = 0;
   foreach ($ranking as $car_maker => $goal_time){
-    echo "第". $i+1 . "位:" . $car_maker . "で" . Calc::toHMS($goal_time) ."\n" ;
+    echo "第". $i+1 . "位:\n";
+    sleep(2);
+    echo $car_maker . "で" . Calc::toHMS($goal_time) ."\n" ;
+    sleep(2);
     $i++;
   }
 
