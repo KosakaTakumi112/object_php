@@ -69,9 +69,10 @@
     }
 
     function pushBreak($time){
+      if ($this->velocity_kmph_ < 60){ return;}
       $this->velocity_kmph_ += $this->deceleration_mpss_ * $time;
-      if($this->velocity_kmph_ < 0){
-        $this->velocity_kmph_ = 0 ;
+      if($this->velocity_kmph_ < 60){
+        $this->velocity_kmph_ = 60 ;
       }
     }
 

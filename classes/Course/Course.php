@@ -17,8 +17,8 @@
         "terminate_road_km" => $straight->distance_km_,
       ];
 
-      for($i = 0; $i < mt_rand(1,5); $i++){
-          for($j = 0; $j < mt_rand(1,5); $j++){
+      for($i = 0; $i < mt_rand(1,4); $i++){
+          for($j = 0; $j < mt_rand(1,3); $j++){
             $this->course[] = $this->getArrayCourseElement("Straight");
           }
           $this->course[] = $this->getArrayCourseElement("BeforeCurve");        
@@ -32,6 +32,15 @@
     function getTotalKm(){
       return end($this->course)["terminate_road_km"];
     }
+    function getRoad($km){
+      foreach($this->course as $road){
+        if($km < $road["terminate_road_km"]){
+          return $road;
+        }else{
+          return end($this->course);
+        }
+      }
+    }
 
     function getArrayCourseElement($class_name){
       $object = new $class_name();
@@ -42,11 +51,7 @@
       ];
     }
 
-
     //ランダム数ストレイトを回してその後カーブをつけるのをランダム数行う。
-
-
-
 
   }
 

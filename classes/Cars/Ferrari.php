@@ -12,9 +12,9 @@
       $seating_capacity  = 1,
       $seating_number    = 1,
       $velocity_kmph     = 0,
-      $max_velocity_kmph = 300,
+      $max_velocity_kmph = 270,
       $acceleration_mpss = 20,
-      $deceleration_mpss = -25,
+      $deceleration_mpss = -22,
       $height_cm = 100,
     ){
       parent::__construct(

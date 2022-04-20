@@ -19,9 +19,13 @@
 
     static function toHMS($seconds) {
       $hours = floor($seconds / 3600);
-      $minutes = floor(($seconds / 60) % 60);
+      $minutes = floor(floor($seconds / 60) % 60);
       $seconds = $seconds % 60;
-      $hms = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds); 
+      if ($hours == 0){ 
+        $hms = sprintf("%02d" ."分"."%02d". "秒", $minutes, $seconds); 
+        return $hms;
+      }
+      $hms = sprintf("%02d". "時間"."%02d" ."分"."%02d". "秒", $hours, $minutes, $seconds); 
       return $hms;
     }
 

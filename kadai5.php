@@ -7,75 +7,146 @@
   require_once "classes/Cars/Toyota.php";
   require_once "classes/Calc/Calc.php";
 
+
   //コース作成
   $course_instance = new Course();
   $course = $course_instance->getCourse();
   $total_m = Calc::toM($course_instance->getTotalKm());
-  echo "レースの総距離は" . Calc::toKm($total_m) . "kmです。\n";
-  sleep(1);
 
-  //車と走行距離の配列をそれぞれ作成
+  print_r($course);
+
+
+  //車のインスタンスと走行距離の配列をそれぞれ作成
   $car_makers = ["Ferrari","Honda","Nissan","Toyota"];
   $cars = [];
   $distances = [];
-  $ranking = [];
+  $information_point = [];
+  $mark = [];
 
   foreach($car_makers as $car_maker){
     $cars += array($car_maker => (new $car_maker));
     $distances += array($car_maker => 0);
+    $information_point += array($car_maker => 100);
+    $mark += array($car_maker => "Straight");
   }
 
-  // print_r($cars);
-  // print_r($distances);
 
-  $delta_time = 60;
+  //レースを行う。時間の計測感覚はdelta_timeで行う。
+  echo "レースの総距離は" . Calc::toKm($total_m) . "kmです。\n";
+  sleep(2);
+  echo "位置について";
+  sleep(1);
+  echo "よーい";
+  sleep(1);
+  echo "どん！\n";
+
+  sleep(1);
+  echo "--------------すべての車は一斉に走り出した--------------\n";
+  sleep(1);
+
+  $delta_time = 1;
   $race_time = 0;
-  while(count($car_makers) != 0){
+  $ranking = [];
+
+  while(count($ranking) < count($cars)){
 
     $race_time += $delta_time;
-    if (($race_time % 60) == 0){
 
-      // sleep(1);
+    if ($race_time % 60 == 0){
       echo Calc::toHMS($race_time). "経過\n";
-      foreach($car_makers as $car_maker){
-        //計算する単位を統一
-        $velocity_mps = Calc::toMps($cars[$car_maker]->getVelocityKmph());
-        $acceleration_mpss = $cars[$car_maker]->getAccelerationMpss();
-  
-        //進んだ距離を計算し、配列に蓄積
-        $distances[$car_maker] += $velocity_mps * $delta_time + 0.5 * $acceleration_mpss * $delta_time * $delta_time;
-        // echo Calc::toHMS($race_time) . "秒時点で" . $car_maker . "は" . Calc::toKm($distances[$car_maker]) . "km進んでいます。\n";
-        echo $car_maker . "の速度は" . $cars[$car_maker]->getVelocityKmph() . "\n";
-  
-        //速度の更新
-        $cars[$car_maker]->pushAccel($delta_time);
-    
-        if($distances[$car_maker] > $total_m){
-          echo $car_maker . "がゴールしました！";
-          $ranking += array($car_maker => $race_time);
-          $index = array_search($car_maker,$car_makers);
-          unset($car_makers[$index]);
-          print_r($car_makers);
-          break;
-        }
+      usleep(200000);
+    }
+
+    foreach($car_makers as $car_maker){
+
+      //車のインスタンス
+      $car = $cars[$car_maker];
+
+      //計算する単位を統一
+      $velocity_mps = Calc::toMps($car->getVelocityKmph());
+      $acceleration_mpss = $car->getAccelerationMpss();
+
+      //加速度から進んだ距離を計算し、配列に蓄積
+      $distances[$car_maker] += $velocity_mps * $delta_time + 0.5 * $acceleration_mpss * $delta_time * $delta_time;
+      $current_location_km = Calc::toKm($distances[$car_maker]);
+      if($current_location_km > $information_point[$car_maker]){
+        echo "--------------" . $car_maker . "は" . $information_point[$car_maker] ."km突破した！" . "(" . Calc::toHMS($race_time)  .")--------------\n";
+        $information_point[$car_maker] += 100;
+        sleep(2);
       }
 
+      //今いる道のタイプを取得
+      $current_road = $course_instance->getRoad(Calc::toKm($distances[$car_maker]));
+      $current_road_type = $current_road["road_type"];
+      $current_road_tolerance_velocity = $current_road["tolerance_velocity_kmph"];
+
+      if ($current_road_type == "BeforeCurve"){
+      echo $current_road_type;
+
+      }
+
+      //道のタイプによって速度の更新
+      if($current_road_type == "Straight"){
+        $car->pushAccel($delta_time);
+        $mark[$car_maker] = "Straight";
+      }
+
+      if($current_road_type == "BeforeCurve"){
+        if ($mark[$car_maker] != "BeforeCurve"){
+          echo $car_maker . "がカーブに突入するぞ！ブレーキをふみこめー！\n";
+          $mark[$car_maker] = "BeforeCurve";
+        }
+        if($race_time % 1 == 0){
+          echo "現在速度:" . $car->velocity_kmph_ . "(km/h)\n" ;
+          sleep(1);
+        }
+        $random = mt_rand(1,10) * 0.1;
+        $car->pushBreak($delta_time * $random);
+      }
+
+      if($current_road_type == "Curve"){
+        if ($mark[$car_maker] != "Curve"){
+          echo $car_maker . "はカーブを曲がる！\n";
+          sleep(1);
+          echo "現在速度:" . $car->velocity_kmph_ . "'km/h)\n" . "許容速度" . $current_road_tolerance_velocity ."(km/h)\n" ;
+          sleep(1);
+          $mark[$car_maker] = "Curve";
+
+          if($car->velocity_kmph_ > $current_road_tolerance_velocity){
+            echo "クラッシュしたーーーーーーーーーーーーーーーー！\n";
+            sleep(2);
+            $car->velocity_kmph_ = 10;
+            echo "速度が10km/hにダウン！\n";
+            sleep(2);
+          }else{
+            echo "カーブを曲がりきった！\n";
+            sleep(2);
+          }
+        }
+      }
+      // echo $car_maker . "の速度は" . $car->getVelocityKmph() . "\n";
+
+
+      //ゴール判定
+      if($distances[$car_maker] > $total_m){
+        echo "--------------" . $car_maker . "がゴールしました！--------------";
+        $ranking += array($car_maker => $race_time);
+        $index = array_search($car_maker,$car_makers);
+        unset($car_makers[$index]);
+        print_r($car_makers);
+      }
     }
+
   }
 
   echo "結果発表\n";
   sleep(1);
 
-
   $i = 0;
   foreach ($ranking as $car_maker => $goal_time){
-    echo "第". $i+1 . "位:" . $car_maker . "で" . $goal_time ."秒\n" ;
+    echo "第". $i+1 . "位:" . $car_maker . "で" . Calc::toHMS($goal_time) ."\n" ;
     $i++;
   }
-
-  //やることは、車を走らせる0.1秒ごとに、その車はメーカーごとにループさせる
-  //車の走行距離を保持する配列を用意する。
-
 
 
 ?>
