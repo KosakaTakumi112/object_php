@@ -7,8 +7,10 @@
   require_once "classes/Cars/Toyota.php";
   require_once "classes/Calc/Calc.php";
 
+
+  //表示をゆっくりにするメソッド。$hasSleepをtrueにすると表示がゆっくりされる。他のクラスに切り分けるなどが必要。
   function cSleep($int){
-    $hasSleep = false;
+    $hasSleep = true;
     if($hasSleep){
       sleep($int);
     }
@@ -24,6 +26,8 @@
 
   // $info_while_racing = [ "車の名前" => [["距離" => "km"],["途中表示地点" => "km"],["前回時いたコースタイプ" => 0] ...]] ]
   $info_while_racing = [];
+
+  //前回いたコースタイプを記録し,0か1でフラグを立てる配列。例)日産が直線にいた時 $mark = [ "nissan" => ["Straight" => 1 , "Curve" => 0 ....]];
   $mark = [];
 
   foreach($car_names as $car_name){
@@ -31,9 +35,6 @@
     $info_while_racing += array($car_name => ["distance" => 0, "information_point" => 100]);
     $mark += array($car_name => ["Straight"=>0 ,"Curve"=>0,"BeforeCurve"=>0,"Crash"=>0 ]);
   }
-
-  print_r($info_while_racing);
-  print_r($info_while_racing[$car_name]["information_point"]);
 
   echo "本日のレースに参加する車を紹介します。\n";
   cSleep(2);
@@ -51,7 +52,6 @@
   echo "まもなくレースを開始します。開始位置に並んでくささい。\n";
   cSleep(2);
 
-  //レースを行う。時間の計測感覚はdelta_timeで行う。
   echo "レースの総距離は" . $total_km . "kmです。\n";
   cSleep(2);
   echo "それではレースを開始します。\n";
@@ -71,7 +71,6 @@
 
   //ゴールした車はranking配列に代入される。
   $ranking = [];
-
   while(!(count($ranking) == count($car_objects))){
 
     $race_time += $delta_time;
@@ -83,36 +82,38 @@
     
     foreach($car_names as $car_name){
 
-      //車のインスタンス
+      //車のインスタンスを変数に入れとく
       $car = $car_objects[$car_name];
 
       $velocity_mps = $car->getVelocityMps();
       $acceleration_mpss = $car->getAccelerationMpss();
 
-
-      // echo $velocity_mps * Calc::toKm($delta_time + 0.5 * $acceleration_mpss * $delta_time * $delta_time) . "\n";
-
-      //距離を計算し、kmに直して、配列に蓄積
+      //delta_time毎の走行距離を計算し、kmに直してから配列に蓄積
       $info_while_racing[$car_name]["distance"] += Calc::toKm($velocity_mps * $delta_time + 0.5 * $acceleration_mpss * $delta_time * $delta_time);
+
       $current_location_km = $info_while_racing[$car_name]["distance"];
-      // echo $info_while_racing[$car_name]["distance"]. "\n";
+
+      //現在までの走行距離がお知らせする距離を超えていたら表示
       if($current_location_km > $info_while_racing[$car_name]["information_point"]){
         echo "--------------" . $car_name . "は" . $info_while_racing[$car_name]["information_point"] ."km突破した！" . "(" . Calc::toHMS($race_time)  .")--------------\n";
         $info_while_racing[$car_name]["information_point"] += 100;
         cSleep(2);
       }
 
-      //今いる道のタイプを取得
+      //今いる道のオブジェクトを取得
       $current_road = $course_instance->getRoad($current_location_km);
+      //今いる道のタイプを取得
       $current_road_type = $current_road["road_type"];
+      //今いる道の許容速度を取得
       $current_road_tolerance_velocity = $current_road["tolerance_velocity_mps"];
-      // echo $current_road_type . "で" . $current_location_km . "地点にいます\n";
 
       //今走っている道のタイプによって速度の更新、カーブであればクラッシュ判定を行う。
       switch($current_road_type){
 
         case "Straight":
           $car->pushAccel($delta_time);
+
+          //ここは後ほど改善必要
           $mark[$car_name]["Straight"] = 1;
           $mark[$car_name]["Curve"] = 0;
           $mark[$car_name]["BeforeCurve"] = 0;
@@ -120,12 +121,14 @@
           break;
 
         case "BeforeCurve":
+
+          //前回いたコースタイプがBeforeCurve出ない時のみ表示する)
           if ($mark[$car_name]["BeforeCurve"] == 0){
             echo $car_name . "がカーブに突入するぞ！ブレーキをふみこめー！\n";
             $mark[$car_name]["BeforeCurve"] = 1;
           }
-          if($race_time % 5 == 0){
-            echo "現在速度:" . $car->velocity_mps_ . "(km/h)\n" ;
+          if($race_time % 1 == 0){
+            echo "現在速度:" . Calc::toKmph($car->velocity_mps_). "(km/h)\n" ;
             cSleep(1);
           }
           $car->pushBreak($delta_time);
@@ -135,11 +138,11 @@
           if ($mark[$car_name]["Curve"] == 0){
             echo $car_name . "はカーブを曲がる！\n";
             cSleep(1);
-            echo "現在速度:" . $car->velocity_mps_ . "(km/h)\n" . "許容速度" . $current_road_tolerance_velocity ."(km/h)\n" ;
+            echo "現在速度:" . Calc::toKmph($car->velocity_mps_) . "(km/h)\n" . "許容速度" . $current_road_tolerance_velocity ."(km/h)\n" ;
             cSleep(1);
             $mark[$car_name]["Curve"] = 1;
 
-            if($car->velocity_mps_ > $current_road_tolerance_velocity){
+            if(Calc::toKmph($car->velocity_mps_) > $current_road_tolerance_velocity){
               echo "クラッシュしたーーーーーーーーーーーーーーーー！\n";
               cSleep(2);
               $car->velocity_mps_ = 5;
@@ -147,9 +150,11 @@
               cSleep(2);
               echo "さらに車が故障して性能が大幅に下がった！\n";
               cSleep(1);
-              $car->max_velocity_mps_ = rand(120,180);
-              $car->acceleration_mpss_ = rand(6,10);
-              echo "最高速度は" . $car->max_velocity_mps_ . "(km/h)に!\n";
+
+              //ここはクラッシュ時に最高速度と加速度を低下させている。マジックナンバーがあるため改善要。
+              $car->max_velocity_mps_ = rand(35,45);
+              $car->acceleration_mpss_ = rand(6,9);
+              echo "最高速度は" . Calc::toKmph($car->max_velocity_mps_) . "(km/h)に!\n";
               cSleep(1);
               echo "加速度は" . $car->acceleration_mpss_ . "(m/s^2)に!\n";
               $mark[$car_name]["Crash"] = 1;

@@ -3,7 +3,7 @@
 
   class BeforeCurve extends Road {
 
-    public $distance_km_ = 1;
+    public $distance_km_ = 0.2;
 
     function __construct(){
     }

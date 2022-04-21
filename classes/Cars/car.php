@@ -1,5 +1,8 @@
 <?php
 
+  require_once(dirname(__FILE__)."/../Calc/Calc.php");
+
+
   abstract class Car{
 
     //命名方法
@@ -69,10 +72,11 @@
     }
 
     function pushBreak($time){
-      if ($this->velocity_mps_ < 60){ return;}
+      if ($this->velocity_mps_ < Calc::toMps(60)){ return;}
       $this->velocity_mps_ += $this->deceleration_mpss_ * $time * mt_rand(1,10) * 0.1;
-      if($this->velocity_mps_ < 60){
-        $this->velocity_mps_ = 60 ;
+      // echo $this->velocity_mps_;
+      if($this->velocity_mps_ < Calc::toMps(60)){
+        $this->velocity_mps_ = Calc::toMps(60) ;
       }
     }
 
