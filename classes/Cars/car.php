@@ -9,8 +9,8 @@
     public    int $price_jpy_;
     public    int $seating_capacity_;
     public    int $seating_number_;
-    public  float $velocity_kmph_;
-    public  float $max_velocity_kmph_;
+    public  float $velocity_mps_;
+    public  float $max_velocity_mps_;
     public  float $acceleration_mpss_;
     public  float $deceleration_mpss_;
     public    int $height_cm_;
@@ -30,8 +30,8 @@
       $price_jpy,
       $seating_capacity,
       $seating_number,
-      $velocity_kmph,
-      $max_velocity_kmph,
+      $velocity_mps,
+      $max_velocity_mps,
       $acceleration_mpss,
       $deceleration_mpss,
       $height_cm
@@ -40,8 +40,8 @@
       $this->price_jpy_         = mt_rand(($price_jpy - 9999999), ($price_jpy + 10000000));
       $this->seating_capacity_  = $seating_capacity;
       $this->seating_number_    = $seating_number;
-      $this->velocity_kmph_     = $velocity_kmph;
-      $this->max_velocity_kmph_ = $max_velocity_kmph;
+      $this->velocity_mps_     = $velocity_mps;
+      $this->max_velocity_mps_ = $max_velocity_mps;
       $this->acceleration_mpss_ = $acceleration_mpss;
       $this->deceleration_mpss_ = $deceleration_mpss;
       $this->height_cm_         = $height_cm;
@@ -56,23 +56,23 @@
     function            getPrice(){ return $this->price_jpy_; }
     function    getSeatingNumber(){ return $this->seating_number_; }
     function  getSeatingCapacity(){ return $this->seating_capacity_; }
-    function     getVelocityKmph(){ return $this->velocity_kmph_; }
+    function     getVelocityMps(){ return $this->velocity_mps_; }
     function getAccelerationMpss(){ return $this->acceleration_mpss_; }
     function           getHeight(){ return $this->height_cm_; }
     //ここまで
 
     function pushAccel($time){
-      $this->velocity_kmph_ += $this->acceleration_mpss_ * $time ;
-      if($this->velocity_kmph_ > $this->max_velocity_kmph_ ){
-        $this->velocity_kmph_ = $this->max_velocity_kmph_ ;
+      $this->velocity_mps_ += $this->acceleration_mpss_ * $time;
+      if($this->velocity_mps_ > $this->max_velocity_mps_ ){
+        $this->velocity_mps_ = $this->max_velocity_mps_ ;
       }
     }
 
     function pushBreak($time){
-      if ($this->velocity_kmph_ < 60){ return;}
-      $this->velocity_kmph_ += $this->deceleration_mpss_ * $time * mt_rand(1,10) * 0.1;
-      if($this->velocity_kmph_ < 60){
-        $this->velocity_kmph_ = 60 ;
+      if ($this->velocity_mps_ < 60){ return;}
+      $this->velocity_mps_ += $this->deceleration_mpss_ * $time * mt_rand(1,10) * 0.1;
+      if($this->velocity_mps_ < 60){
+        $this->velocity_mps_ = 60 ;
       }
     }
 
@@ -126,7 +126,7 @@
         echo "\n";
         echo "減速度：{$this->deceleration_mpss_}(m/s^2)";
         echo "\n";
-        echo "最高速度：{$this->max_velocity_kmph_}(km/h)";
+        echo "最高速度：{$this->max_velocity_mps_}(km/h)";
         echo "\n";
         echo "車高：{$this->height_cm_}(cm)";
         echo "\n";

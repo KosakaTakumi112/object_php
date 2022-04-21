@@ -11,10 +11,10 @@
       $price_jpy         = 35000000,
       $seating_capacity  = 1,
       $seating_number    = 1,
-      $velocity_kmph     = 0,
-      $max_velocity_kmph = 270,
+      $velocity_mps     = 0,
+      $max_velocity_mps = 75,
       $acceleration_mpss = 20,
-      $deceleration_mpss = -12,
+      $deceleration_mpss = -13,
       $height_cm = 100,
     ){
       parent::__construct(
@@ -22,8 +22,8 @@
         $price_jpy,
         $seating_capacity,
         $seating_number,
-        $velocity_kmph,
-        $max_velocity_kmph,
+        $velocity_mps,
+        $max_velocity_mps,
         $acceleration_mpss,
         $deceleration_mpss,
         $height_cm

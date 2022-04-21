@@ -13,12 +13,12 @@
       $straight = new Straight();
       $this->course[] = [
         "road_type" => get_class($straight),
-        "tolerance_velocity_kmph" => $straight->tolerance_velocity_kmph_,
+        "tolerance_velocity_mps" => $straight->tolerance_velocity_mps_,
         "terminate_road_km" => $straight->distance_km_,
       ];
 
-      for($i = 0; $i < mt_rand(1,5); $i++){
-          for($j = 0; $j < mt_rand(1,4); $j++){
+      for($i = 0; $i < 2; $i++){
+          for($j = 0; $j < mt_rand(2,4); $j++){
             $this->course[] = $this->getArrayCourseElement("Straight");
           }
           $this->course[] = $this->getArrayCourseElement("BeforeCurve");        
@@ -46,7 +46,7 @@
       $object = new $class_name();
       return [
         "road_type" => get_class($object),
-        "tolerance_velocity_kmph" => $object->tolerance_velocity_kmph_,
+        "tolerance_velocity_mps" => mt_rand($object->tolerance_velocity_mps_-20,$object->tolerance_velocity_mps_+10),
         "terminate_road_km" => end($this->course)["terminate_road_km"] + $object->distance_km_
       ];
     }

@@ -9,12 +9,16 @@
       return $kmph * 1000 / 3600;
     }
 
+    static function toKmph($mps){
+      return $mps * 3.6;
+    }
+
     static function toM($km){
       return $km * 1000;
     }
 
     static function toKm($m){
-      return round($m / 1000);
+      return $m * 0.001;
     }
 
     static function toHMS($seconds) {

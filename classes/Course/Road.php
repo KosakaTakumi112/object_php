@@ -3,7 +3,7 @@
 abstract class Road {
 
   public $distance_km_;
-  public $tolerance_velocity_kmph_;
+  public $tolerance_velocity_mps_;
 
   function __construct(){
   }
